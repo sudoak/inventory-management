@@ -1,9 +1,8 @@
-const { GraphQLDateTime } = require('graphql-iso-date');
+const { GraphQLDateTime } = require("graphql-iso-date");
+const productResolver = require("./product.resolver");
 
 const customDateScalarResolver = {
-  Date: GraphQLDateTime
-}
+  Date: GraphQLDateTime,
+};
 
-module.exports = [
-  customDateScalarResolver
-];
+module.exports = [customDateScalarResolver, productResolver];

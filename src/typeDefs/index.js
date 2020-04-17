@@ -1,5 +1,5 @@
 const { gql } = require('apollo-server-express');
-
+const productTypedef = require('./product.typedef');
 const typeDefs = gql`
   scalar Date
 
@@ -14,4 +14,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = [typeDefs];
+module.exports = [typeDefs, productTypedef];
