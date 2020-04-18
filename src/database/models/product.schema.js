@@ -6,6 +6,10 @@ const productSchema = new mongoose.Schema(
     title: String,
     description: String,
     mrp: Number,
+    shops: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Shop"
+    }],
   },
   {
     timestamps: true,

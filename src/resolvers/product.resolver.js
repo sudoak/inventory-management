@@ -2,6 +2,7 @@ const { combineResolvers } = require("graphql-resolvers");
 
 const { checkMiddle } = require("./middleware");
 const Product = require("../database/models/product.schema");
+const Shop = require("../database/models/shop.schema");
 module.exports = {
   Query: {
     products: combineResolvers(checkMiddle, async () => {
@@ -24,14 +25,41 @@ module.exports = {
   Mutation: {
     createProduct: combineResolvers(checkMiddle, async (_, { input }) => {
       try {
-          console.log(input);
-          
-          const _ = new Product({...input});
-          return await _.save();
+        console.log(input);
+
+        const _ = new Product({ ...input });
+        return await _.save();
       } catch (error) {
         console.log(error);
         throw error;
       }
     }),
+    addShop: combineResolvers(checkMiddle, async (_, { productId, shopId }) => {
+      try {
+        return await Product.findByIdAndUpdate(
+          productId,
+          {
+            $addToSet: { shops: shopId },
+          },
+          { new: true }
+        );
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    }),
+  },
+  Product: {
+    shops: async (parent) => {
+      try {
+        console.log(parent);
+
+        return await Shop.find({ _id: { $in: parent.shops } });
+        
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
   },
 };

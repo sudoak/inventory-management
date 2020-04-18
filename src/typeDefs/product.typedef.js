@@ -7,6 +7,7 @@ module.exports = gql`
     title : String!
     description: String!
     mrp: String!
+    shops: [Shop]
     createdAt: Date!
     updatedAt: Date!
   }
@@ -22,7 +23,12 @@ module.exports = gql`
     description: String!
     mrp: String!
   }
+  
+  input addShopInput {
+    shopId: String
+  }
   extend type Mutation {
     createProduct(input: createProductInput!): Product
+    addShop(shopId: ID!, productId: ID!):Product
   }
 `;
