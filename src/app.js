@@ -5,8 +5,8 @@ const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
 
 const { connection } = require("./database/utils");
-const resolvers = require('./resolvers');
-const typeDefs = require('./typeDefs');
+const resolvers = require("./resolvers");
+const typeDefs = require("./typeDefs");
 
 const app = express();
 
@@ -18,6 +18,18 @@ app.use(express.json());
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
+  context: async ({ req }) => {
+    const contextObj = {};
+    // if (req) {
+    //   console.log("here");
+    // }
+    return contextObj;
+  },
+  formatError: (error) => {
+    return {
+      message: error.message,
+    };
+  },
 });
 
 apolloServer.applyMiddleware({ app, path: "/graphql" });
